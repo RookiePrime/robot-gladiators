@@ -16,10 +16,24 @@ var enemyAttack = 12;
 
 var fight = function(enemyRobot) {
 
-  while (enemyHealth > 0) {  
+  while (enemyHealth > 0 && playerHealth > 0) {  
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
   
-    if (promptFight.toLowerCase() === "fight") {
+    if (promptFight.toLowerCase() === "skip") {
+      // Confirm players wants to skip
+      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+  
+      // If yes, leave fight
+      if (confirmSkip) {
+        window.alert(playerName + " has decided to skip this fight. Goodbye!");
+        // Subtract money from playerMoney for skipping
+        playerMoney = playerMoney - 10;
+        console.log("playerMoney", playerMoney);
+        break;
+      } else {
+        fight();
+      }
+    } else if (promptFight.toLowerCase() === "fight") {
   
       //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
       enemyHealth = enemyHealth - playerAttack;
@@ -32,6 +46,7 @@ var fight = function(enemyRobot) {
       // Check enemy's health
       if (enemyHealth <= 0) {
         window.alert(enemyRobot + " has died!");
+        break;
       } else {
         window.alert(enemyRobot + " still has " + enemyHealth + " health left.");
       }
@@ -47,22 +62,11 @@ var fight = function(enemyRobot) {
       // Check player's health
       if (playerHealth <= 0) {
         window.alert(playerName + " has died!");
+        break;
       } else {
         window.alert(playerName + " still has " + playerHealth + " health left.");
       }
-    } else if (promptFight.toLowerCase() === "skip") {
-      // Confirm players wants to skip
-      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-  
-      // If yes, leave fight
-      if (confirmSkip) {
-        window.alert(playerName + " has decided to skip this fight. Goodbye!");
-        // Subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 2;
-      } else {
-        fight();
-      }
-    } else {
+    }  else {
       window.alert("You need to choose a valid option. Refresh and try again!");
     }
   }

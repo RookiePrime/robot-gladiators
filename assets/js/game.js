@@ -17,6 +17,7 @@ const playerInfo = {
   health: 100,
   attack: 10,
   money: 10,
+  score: 0,
   reset: function() {
     this.health = 100;
     this.money = 10;
@@ -150,7 +151,7 @@ var fight = function(enemy) {
         window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
       }
     }
-    isPlayerTurn = !PlayerTurn;
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
@@ -187,10 +188,20 @@ var startGame = function() {
 
 var endGame = function() {
 
-  if (playerInfo.health > 0) {
-    window.alert("The game has now ended. Let's see how you did!");
+  window.alert("The game has now ended. Let's see how you did!");
+
+  window.alert("Your score was " + playerInfo.money + "!");
+
+  var highScore = localStorage.getItem("highScore");
+
+  highScore = parseInt(highScore) || 0;
+
+  if (highScore > playerInfo.money) {
+    window.alert("Unfortunately, this does not beat your high score of " + highScore + "!");
   } else {
-    window.alert("You've lost your robot in battle.");
+    window.alert("Congratulations, this beats your previous high score of " + highScore + "! This is now your high score!");
+    localStorage.setItem("highScore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
   }
 
   var playAgainConfirm = window.confirm("Would you like to play again?");
